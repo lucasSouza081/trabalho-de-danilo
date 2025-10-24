@@ -229,10 +229,6 @@ HAVING COUNT(*) > 1;
 - [ ] Criar funções personalizadas (UDF)
 - [ ] Implementar particionamento para tabelas grandes
 
-## 👨‍💻 Autores
-
-- **Kauan** - Desenvolvimento dos scripts de INSERT e manipulação
-- **Danilo** - Estrutura principal e modelagem
 
 ## 📝 Licença
 
