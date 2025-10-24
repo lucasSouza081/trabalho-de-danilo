@@ -1,6 +1,6 @@
 /* ===========================================================
-   SCRIPT COMPLETO - PROJETO Lógico_TRIO
-   SEÇÃO 1: CRIAÇÃO DAS TABELAS
+   SCRIPT COMPLETO 
+   CRIAÇÃO DAS TABELAS
 ===========================================================
 */
 
@@ -101,9 +101,12 @@ CREATE TABLE _Escrito_por (
     fk_Livros_ISBN INT,
     fk_Autores_Autor_ID INT
 );
- 
+ /* Corrigindo bugs da Seção 1 */
+ALTER TABLE Funcionarios MODIFY COLUMN Telefone VARCHAR(20);
+ALTER TABLE Editoras MODIFY COLUMN CNPJ VARCHAR(18);
+
 /* ===========================================================
-   SEÇÃO 2: DEFINIÇÃO DAS CHAVES ESTRANGEIRAS (FOREIGN KEYS)
+    DEFINIÇÃO DAS CHAVES ESTRANGEIRAS (FOREIGN KEYS)
 ===========================================================
 */
 
@@ -246,9 +249,10 @@ HAVING COUNT(DISTINCT L.Genero) > 1;
 
 
 /* ===========================================================
-   SEÇÃO 4: SCRIPTS DE CONSULTA (SELECT) (20 Consultas)
+  SCRIPTS DE CONSULTA (SELECT) (20 Consultas)
 ===========================================================
 */
+SET SQL_SAFE_UPDATES = 0;
 
 /* 1. Quais são os 10 livros mais vendidos (em quantidade)? */
 SELECT L.Titulo, SUM(IP.Quantidade) AS Total_Vendido
@@ -377,17 +381,12 @@ LEFT JOIN Livros L ON EP.fk_Livros_ISBN = L.ISBN;
 
 
 /* ===========================================================
-   SEÇÃO 5: SCRIPTS DE ALTERAÇÃO (ALTER TABLE) (10 Alterações)
+   SEÇÃO 5: SCRIPTS DE ALTERAÇÃO (CORRIGIDO PARA MYSQL)
+   (Pular os comandos de Salário)
 ===========================================================
 */
-
-/* 1. Adicionar uma coluna de 'Salário' para Funcionários */
-ALTER TABLE Funcionarios
-ADD COLUMN Salario DECIMAL(10, 2);
-
-/* 2. Adicionar uma restrição (CHECK) para o salário */
-ALTER TABLE Funcionarios
-ADD CONSTRAINT CHK_Salario CHECK (Salario > 1400.00);
+ALTER TABLE Editoras MODIFY COLUMN CNPJ VARCHAR(18);
+/* SEÇÃO 5 CORRIGIDA PARA MYSQL (SEM SALÁRIO) */
 
 /* 3. Adicionar uma coluna para 'Método de Pagamento' na tabela Pedidos */
 ALTER TABLE Pedidos
@@ -399,7 +398,7 @@ ADD CONSTRAINT UQ_Email UNIQUE (Email);
 
 /* 5. Mudar o tipo de dado da Descrição do Livro para suportar textos maiores */
 ALTER TABLE Livros
-ALTER COLUMN Descricao VARCHAR(1000);
+MODIFY COLUMN Descricao VARCHAR(1000);
 
 /* 6. Remover a coluna 'Bio' da tabela Autores */
 ALTER TABLE Autores
@@ -419,11 +418,10 @@ ADD CONSTRAINT CHK_Estado CHECK (Estado IN ('Novo', 'Usado', 'Danificado', 'Empr
 
 /* 10. Renomear a coluna 'Data_Publi' em Livros para 'Data_Publicacao' */
 ALTER TABLE Livros
-RENAME COLUMN Data_Publi TO Data_Publicacao;
-
+CHANGE COLUMN Data_Publi Data_Publicacao DATE;
 
 /* ===========================================================
-   SEÇÃO 6: SCRIPT DE DESTRUIÇÃO (DROP)
+   SCRIPT DE DESTRUIÇÃO (DROP)
 ===========================================================
 */
 
@@ -438,8 +436,6 @@ DROP VIEW IF EXISTS VW_Contagem_Funcionarios_Por_Depto;
 DROP VIEW IF EXISTS VW_Catalogo_Completo_Livros;
 DROP VIEW IF EXISTS VW_Livros_Sem_Exemplares;
 DROP VIEW IF EXISTS VW_Clientes_Generos_Diversos;
-
-/* --- 2. Removendo as TABELAS (em ordem de dependência) --- */
 DROP TABLE IF EXISTS _Pertence_a_;
 DROP TABLE IF EXISTS _Escrito_por;
 DROP TABLE IF EXISTS Itens_Pedido;
@@ -453,3 +449,6 @@ DROP TABLE IF EXISTS Livros;
 DROP TABLE IF EXISTS Clientes;
 DROP TABLE IF EXISTS Autores;
 DROP TABLE IF EXISTS Areas_Conhecimento;
+
+
+create database trabalho_de_danilo;
